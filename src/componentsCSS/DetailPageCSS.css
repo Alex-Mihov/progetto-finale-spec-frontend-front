@@ -1,0 +1,286 @@
+.detail-page-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg,
+            #00f0ff,
+            #0B1F2A,
+            #00f0ff,
+            #6E00FF,
+            #00f0ff,
+            #FF4DC1,
+            #00f0ff,
+            #0B1F2A,
+            #00f0ff,
+            #6E00FF,
+            #00f0ff);
+    padding: 2rem;
+    font-family: 'Arial', 'Helvetica', sans-serif;
+}
+
+.detail-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 3rem;
+    background: rgba(15, 15, 19, 0.9);
+    border-radius: 15px;
+    padding: 2rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.game-image-section {
+    position: relative;
+}
+
+.game-detail-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.detail-discount-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #ff4dc1;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.game-info-section {
+    color: white;
+}
+
+.game-detail-title {
+    color: #00f0ff;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.game-detail-category {
+    color: #6e00ff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 1.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.game-rating {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(0, 240, 255, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.rating-label {
+    font-weight: 600;
+}
+
+.rating-value {
+    color: #00f0ff;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.game-description {
+    margin-bottom: 2rem;
+}
+
+.game-description h3 {
+    color: #00f0ff;
+    font-size: 1.3rem;
+    margin-bottom: 0.8rem;
+}
+
+.game-description p {
+    line-height: 1.6;
+    color: #e0e0e0;
+    font-size: 1rem;
+}
+
+.game-details {
+    margin-bottom: 2rem;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #b0b0b0;
+}
+
+.detail-value {
+    color: #e0e0e0;
+    font-weight: 500;
+}
+
+.detail-value.available {
+    color: #00ff88;
+}
+
+.detail-value.unavailable {
+    color: #ff4444;
+}
+
+.game-platforms,
+.game-languages {
+    margin-bottom: 2rem;
+}
+
+.game-platforms h3,
+.game-languages h3 {
+    color: #00f0ff;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+}
+
+.platforms-list,
+.languages-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.platform-badge,
+.language-badge {
+    background: rgba(0, 240, 255, 0.1);
+    color: #00f0ff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.language-badge {
+    background: rgba(110, 0, 255, 0.1);
+    color: #6e00ff;
+    border-color: rgba(110, 0, 255, 0.3);
+}
+
+.game-price-section {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 2rem;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: 2rem;
+}
+
+.price-with-discount {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.original-price {
+    color: #888;
+    text-decoration: line-through;
+    font-size: 1.2rem;
+}
+
+.discounted-price {
+    color: #ff4dc1;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.current-price {
+    color: #00f0ff;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.purchase-button {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #00f0ff, #6e00ff);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.purchase-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
+}
+
+.purchase-button:disabled {
+    background: #555;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.game-not-found {
+    text-align: center;
+    color: white;
+    padding: 3rem;
+}
+
+.game-not-found h2 {
+    color: #00f0ff;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .detail-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 1.5rem;
+    }
+
+    .game-detail-title {
+        font-size: 2rem;
+    }
+
+    .detail-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .detail-page-container {
+        padding: 1rem;
+    }
+
+    .detail-content {
+        padding: 1rem;
+    }
+
+    .game-detail-title {
+        font-size: 1.5rem;
+    }
+
+    .game-price-section {
+        padding: 1rem;
+    }
+}
