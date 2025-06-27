@@ -1,0 +1,450 @@
+.compare-page-container {
+    min-height: 100vh;
+    background: linear-gradient(135deg,
+            #00f0ff,
+            #0B1F2A,
+            #00f0ff,
+            #6E00FF,
+            #00f0ff,
+            #FF4DC1,
+            #00f0ff,
+            #0B1F2A,
+            #00f0ff,
+            #6E00FF,
+            #00f0ff);
+    padding: 2rem;
+    font-family: 'Arial', 'Helvetica', sans-serif;
+}
+
+.compare-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: white;
+}
+
+.compare-header h1 {
+    color: #00f0ff;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.compare-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.clear-compare-btn,
+.back-to-games-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.clear-compare-btn {
+    background: linear-gradient(135deg, #ff4444, #cc0000);
+    color: white;
+}
+
+.clear-compare-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(255, 68, 68, 0.3);
+}
+
+.back-to-games-btn {
+    background: linear-gradient(135deg, #6e00ff, #00f0ff);
+    color: white;
+}
+
+.back-to-games-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(110, 0, 255, 0.3);
+}
+
+.compare-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.compare-card {
+    background: rgba(15, 15, 19, 0.9);
+    border-radius: 15px;
+    padding: 1.5rem;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+}
+
+.compare-card-header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 1rem;
+}
+
+.remove-game-btn {
+    background: rgba(255, 68, 68, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.remove-game-btn:hover {
+    background: #ff4444;
+    transform: scale(1.1);
+}
+
+.game-image-section {
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+
+.compare-game-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.compare-discount-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff4dc1;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.compare-game-info {
+    color: white;
+}
+
+.compare-game-title {
+    color: #00f0ff;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.compare-game-category {
+    color: #6e00ff;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 1.5rem 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.compare-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.compare-section:last-child {
+    border-bottom: none;
+}
+
+.compare-section h3 {
+    color: #00f0ff;
+    font-size: 1.1rem;
+    margin-bottom: 0.8rem;
+    font-weight: 600;
+}
+
+.rating-display {
+    color: #00f0ff;
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+
+.price-display {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.original-price {
+    color: #888;
+    text-decoration: line-through;
+    font-size: 1rem;
+}
+
+.discounted-price {
+    color: #ff4dc1;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.current-price {
+    color: #00f0ff;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.detail-label {
+    color: #b0b0b0;
+    font-weight: 600;
+}
+
+.detail-value {
+    color: #e0e0e0;
+    font-weight: 500;
+}
+
+.detail-value.available {
+    color: #00ff88;
+}
+
+.detail-value.unavailable {
+    color: #ff4444;
+}
+
+.platforms-grid,
+.languages-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.platform-tag,
+.language-tag {
+    background: rgba(0, 240, 255, 0.1);
+    color: #00f0ff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    border: 1px solid rgba(0, 240, 255, 0.3);
+}
+
+.language-tag {
+    background: rgba(110, 0, 255, 0.1);
+    color: #6e00ff;
+    border-color: rgba(110, 0, 255, 0.3);
+}
+
+.game-description {
+    color: #e0e0e0;
+    line-height: 1.6;
+    font-size: 0.9rem;
+}
+
+.compare-actions-section {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.view-details-btn,
+.add-to-cart-btn {
+    flex: 1;
+    padding: 0.8rem 1rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.9rem;
+}
+
+.view-details-btn {
+    background: linear-gradient(135deg, #6e00ff, #00f0ff);
+    color: white;
+}
+
+.view-details-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(110, 0, 255, 0.3);
+}
+
+.add-to-cart-btn {
+    background: linear-gradient(135deg, #00f0ff, #ff4dc1);
+    color: white;
+}
+
+.add-to-cart-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 240, 255, 0.3);
+}
+
+.add-to-cart-btn:disabled {
+    background: #555;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+/* Placeholder per il secondo gioco */
+.compare-card.placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(15, 15, 19, 0.5);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+}
+
+.placeholder-content {
+    text-align: center;
+    color: white;
+}
+
+.placeholder-icon {
+    font-size: 4rem;
+    color: #00f0ff;
+    margin-bottom: 1rem;
+}
+
+.placeholder-content h3 {
+    color: #00f0ff;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.placeholder-content p {
+    color: #b0b0b0;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.add-game-btn {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #00f0ff, #6e00ff);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.add-game-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
+}
+
+/* No games to compare */
+.no-games-to-compare {
+    text-align: center;
+    color: white;
+    padding: 3rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.no-games-to-compare h2 {
+    color: #00f0ff;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.no-games-to-compare p {
+    color: #b0b0b0;
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.back-to-games {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #00f0ff, #6e00ff);
+    color: white;
+    text-decoration: none;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.back-to-games:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .compare-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .compare-header h1 {
+        font-size: 2rem;
+    }
+
+    .compare-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .compare-game-title {
+        font-size: 1.5rem;
+    }
+
+    .compare-actions-section {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .compare-page-container {
+        padding: 1rem;
+    }
+
+    .compare-card {
+        padding: 1rem;
+    }
+
+    .compare-game-image {
+        height: 200px;
+    }
+
+    .compare-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .detail-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+    }
+}

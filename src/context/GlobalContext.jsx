@@ -1,147 +1,156 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
 const GlobalContext = createContext();
+const API_BASE_URL = "http://localhost:3001";
 
-// Provider component
 export function GlobalContextProvider({ children }) {
+    // Stati principali
     const [games, setGames] = useState([]);
     const [categories, setCategories] = useState([]);
-    const api = "http://localhost:3001";
+    const [compareGames, setCompareGames] = useState([]);
 
+    // Carica tutti i giochi all'avvio
     useEffect(() => {
-        async function fetchAllGames() {
-            try {
-                // Recupera tutti i giochi
-                const response = await fetch(`${api}/games`);
-                if (!response.ok) {
-                    throw new Error("Errore rete");
-                }
-                const data = await response.json();
-
-                // Fetch dettagli per ogni id di tutti i giochi
-                const details = await Promise.all(
-                    data.map(game =>
-                        fetch(`${api}/games/${game.id}`)
-                            .then(res => res.json())
-                    )
-                );
-
-                setGames(details);
-
-                // Estrai le categorie uniche
-                const uniqueCategories = [...new Set(details.map(({ game }) => game.category))];
-                setCategories(uniqueCategories);
-
-            } catch (error) {
-                console.error("Errore fetch giochi:", error);
-            }
-        }
-        fetchAllGames();
+        loadAllGames();
     }, []);
 
-    // Funzione per recuperare un singolo gioco per id
-    async function fetchGameById(id) {
+    // Funzione per caricare tutti i giochi con i loro dettagli
+    async function loadAllGames() {
         try {
-            const response = await fetch(`${api}/games/${id}`);
-            if (!response.ok) {
-                throw new Error("Errore rete");
-            }
-            const game = await response.json();
-            console.log("Gioco singolo:", game);
-            return game;
+            const response = await fetch(`${API_BASE_URL}/games`);
+            const gamesList = await response.json();
+
+            // Carica i dettagli per ogni gioco
+            const gamesWithDetails = await Promise.all(
+                gamesList.map(game => fetchGameDetails(game.id))
+            );
+
+            setGames(gamesWithDetails);
+            extractCategories(gamesWithDetails);
+
         } catch (error) {
-            console.error("Errore fetch gioco singolo:", error);
-            return null;
+            console.error("Errore nel caricamento dei giochi:", error);
         }
     }
 
-    // Funzione per la gestione della chiamata API per il filtro e ricerca
-    const handleSearchFilter = async (searchQuery, optionValue) => {
-        try {
-            // Imposto l'URL di default
-            let url = `${api}/games`;
+    // Funzione helper per caricare i dettagli di un singolo gioco
+    async function fetchGameDetails(id) {
+        const response = await fetch(`${API_BASE_URL}/games/${id}`);
+        return await response.json();
+    }
 
-            // Array per i parametri della query
+    // Estrae le categorie uniche dai giochi
+    function extractCategories(gamesList) {
+        const uniqueCategories = [...new Set(
+            gamesList.map(({ game }) => game.category)
+        )];
+        setCategories(uniqueCategories);
+    }
+
+    // Cerca e filtra i giochi
+    async function searchAndFilterGames(searchText, categoryFilter) {
+        try {
+            // Costruisce l'URL direttamente qui
+            let url = `${API_BASE_URL}/games`;
             const params = [];
 
-            // Aggiungo la ricerca se presente
-            if (searchQuery && searchQuery.trim() !== '') {
-                params.push(`search=${encodeURIComponent(searchQuery.trim())}`);
+            if (searchText?.trim()) {
+                params.push(`search=${encodeURIComponent(searchText.trim())}`);
             }
 
-            // Aggiungo la categoria se presente e diversa da 'all'
-            if (optionValue && optionValue !== 'all') {
-                params.push(`category=${encodeURIComponent(optionValue)}`);
+            if (categoryFilter && categoryFilter !== 'all') {
+                params.push(`category=${encodeURIComponent(categoryFilter)}`);
             }
 
-            // Se ci sono parametri, li aggiungo all'URL
+            // Aggiunge i parametri all'URL se presenti
             if (params.length > 0) {
-                url += `?${params.join('&')}`;
+                url = `${url}?${params.join('&')}`;
             }
 
-            const res = await fetch(url);
-            if (!res.ok) {
-                throw new Error('Errore durante il fetch dei dati: ' + res.statusText);
-            }
-            const data = await res.json();
+            const response = await fetch(url);
+            const data = await response.json();
 
-            // Se la risposta è un array di giochi, fetch dettagli per ogni gioco
+            // Se la risposta è una lista, carica i dettagli
             if (Array.isArray(data)) {
-                const details = await Promise.all(
-                    data.map(game =>
-                        fetch(`${api}/games/${game.id}`)
-                            .then(res => res.json())
-                    )
+                return await Promise.all(
+                    data.map(game => fetchGameDetails(game.id))
                 );
-                return details;
             }
 
             return data;
 
-        } catch (err) {
-            console.error(err);
+        } catch (error) {
+            console.error("Errore nella ricerca:", error);
             return [];
         }
-    };
-
-    // Funzione per filtrare i giochi localmente (solo per ordinamento)
-    function sortGames(gamesToSort, sortBy = 'default') {
-        let sortedGames = [...gamesToSort];
-
-        switch (sortBy) {
-            case 'alphabetical':
-                sortedGames.sort((a, b) => a.game.title.localeCompare(b.game.title));
-                break;
-            case 'alphabetical-desc':
-                sortedGames.sort((a, b) => b.game.title.localeCompare(a.game.title));
-                break;
-            default:
-                break;
-        }
-
-        return sortedGames;
     }
 
-    const value = {
+    // Ordina i giochi alfabeticamente
+    function sortGames(gamesList, sortOrder = 'default') {
+        const sorted = [...gamesList];
+
+        switch (sortOrder) {
+            case 'alphabetical':
+                return sorted.sort((a, b) =>
+                    a.game.title.localeCompare(b.game.title)
+                );
+            case 'alphabetical-desc':
+                return sorted.sort((a, b) =>
+                    b.game.title.localeCompare(a.game.title)
+                );
+            default:
+                return sorted;
+        }
+    }
+
+    // Funzioni per il confronto dei giochi
+    function addToCompare(game) {
+        const isAlreadyAdded = compareGames.some(g => g.id === game.id);
+        const canAdd = compareGames.length < 2 && !isAlreadyAdded;
+
+        if (canAdd) {
+            setCompareGames([...compareGames, game]);
+            return true;
+        }
+        return false;
+    }
+
+    function removeFromCompare(gameId) {
+        setCompareGames(compareGames.filter(game => game.id !== gameId));
+    }
+
+    function clearCompare() {
+        setCompareGames([]);
+    }
+
+    // Valori esposti dal context
+    const contextValue = {
+        // Dati
         games,
         categories,
-        fetchGameById,
-        handleSearchFilter,
-        sortGames
+        compareGames,
+
+        // Funzioni
+        fetchGameById: fetchGameDetails,
+        handleSearchFilter: searchAndFilterGames,
+        sortGames,
+        addToCompare,
+        removeFromCompare,
+        clearCompare
     };
 
     return (
-        <GlobalContext.Provider value={value}>
+        <GlobalContext.Provider value={contextValue}>
             {children}
         </GlobalContext.Provider>
     );
 }
 
-// Custom hook per usare il context
+// Hook personalizzato per usare il context
 export function useGlobalContext() {
     const context = useContext(GlobalContext);
     if (!context) {
-        throw new Error('useGlobalContext deve essere usato all\'interno di GlobalContextProvider');
+        throw new Error('useGlobalContext deve essere usato dentro GlobalContextProvider');
     }
     return context;
 }

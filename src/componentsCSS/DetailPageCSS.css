@@ -211,7 +211,14 @@
     font-weight: 700;
 }
 
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
 .purchase-button {
+    flex: 1;
     padding: 1rem 2rem;
     background: linear-gradient(135deg, #00f0ff, #6e00ff);
     color: white;
@@ -234,6 +241,64 @@
     background: #555;
     cursor: not-allowed;
     opacity: 0.6;
+}
+
+.compare-button {
+    flex: 1;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #ff4dc1, #6e00ff);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.compare-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 77, 193, 0.3);
+}
+
+.compare-button:disabled {
+    background: #555;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.compare-info {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(0, 240, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.compare-info p {
+    color: #00f0ff;
+    margin: 0 0 1rem 0;
+    font-weight: 600;
+}
+
+.view-compare-button {
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, #00f0ff, #ff4dc1);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.view-compare-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 240, 255, 0.3);
 }
 
 .game-not-found {
@@ -264,6 +329,15 @@
         flex-direction: column;
         align-items: flex-start;
         gap: 0.5rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .purchase-button,
+    .compare-button {
+        flex: none;
     }
 }
 
