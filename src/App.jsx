@@ -4,6 +4,7 @@ import HomePage from "./pages/HomePage.jsx"
 import RecordList from "./pages/RecordList.jsx"
 import DetailPage from "./pages/DetailPage.jsx"
 import ComparePage from "./pages/ComparePage.jsx"
+import FavoritesPage from "./pages/FavoritesPage.jsx"
 import { GlobalContextProvider } from "./context/GlobalContext.jsx"
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
             <Route path="/records" element={<RecordList />} />
             <Route path="/game/:id" element={<DetailPage />} />
             <Route path="/compare" element={<ComparePage />} />
+            <Route path="/favorites" element={<FavoritesPage />} />
           </Route>
         </Routes>
       </BrowserRouter>

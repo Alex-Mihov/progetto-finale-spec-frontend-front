@@ -10,14 +10,6 @@ export default function ComparePage() {
         return new Date(dateString).toLocaleDateString('it-IT');
     };
 
-    const calculateDiscount = (game) => {
-        const hasDiscount = game.discountPrice && game.discountPrice < game.price;
-        const discountPercentage = hasDiscount
-            ? Math.round(((game.price - game.discountPrice) / game.price) * 100)
-            : 0;
-        return { hasDiscount, discountPercentage };
-    };
-
     return (
         <div className="compare-page-container">
 
@@ -55,8 +47,6 @@ export default function ComparePage() {
 
                         {/* Renderizza ogni gioco nel confronto */}
                         {compareGames.map((game) => {
-                            const { hasDiscount, discountPercentage } = calculateDiscount(game);
-
                             return (
                                 <div key={game.id} className="compare-card">
 
@@ -71,18 +61,13 @@ export default function ComparePage() {
                                         </button>
                                     </div>
 
-                                    {/* Immagine del gioco con eventuale badge sconto */}
+                                    {/* Immagine del gioco */}
                                     <div className="game-image-section">
                                         <img
                                             src={game.image}
                                             alt={game.title}
                                             className="compare-game-image"
                                         />
-                                        {hasDiscount && (
-                                            <div className="compare-discount-badge">
-                                                -{discountPercentage}%
-                                            </div>
-                                        )}
                                     </div>
 
                                     {/* Tutte le informazioni del gioco */}
@@ -98,18 +83,11 @@ export default function ComparePage() {
                                             <div className="rating-display">⭐ {game.userRating}/10</div>
                                         </div>
 
-                                        {/* Prezzo (con o senza sconto) */}
+                                        {/* Prezzo */}
                                         <div className="compare-section">
                                             <h3>Prezzo</h3>
                                             <div className="price-display">
-                                                {hasDiscount ? (
-                                                    <>
-                                                        <span className="original-price">€{game.price}</span>
-                                                        <span className="discounted-price">€{game.discountPrice}</span>
-                                                    </>
-                                                ) : (
-                                                    <span className="current-price">€{game.price}</span>
-                                                )}
+                                                <span className="current-price">€{game.price}</span>
                                             </div>
                                         </div>
 

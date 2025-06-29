@@ -6,7 +6,7 @@ import "../componentsCSS/HeaderCSS.css";
 export default function Header() {
     const [searchQuery, setSearchQuery] = useState("");
     const navigate = useNavigate();
-    const { compareGames } = useGlobalContext();
+    const { compareGames, favoriteGames } = useGlobalContext();
 
     // Gestisce la ricerca quando l'utente invia il form
     const handleSearchSubmit = (e) => {
@@ -35,8 +35,17 @@ export default function Header() {
                     <Link to="/records" className="nav-link">
                         Giochi
                     </Link>
+                    <Link to="/favorites" className="nav-link favorites-link">
+                        ❤️ Preferiti
+                        {/* Mostra il numero di giochi nei preferiti */}
+                        {favoriteGames.length > 0 && (
+                            <span className="favorites-count">
+                                ({favoriteGames.length})
+                            </span>
+                        )}
+                    </Link>
                     <Link to="/compare" className="nav-link compare-link">
-                        Confronta
+                        🔄 Confronta
                         {/* Mostra il numero di giochi nel confronto */}
                         {compareGames.length > 0 && (
                             <span className="compare-count">

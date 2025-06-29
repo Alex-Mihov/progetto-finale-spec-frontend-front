@@ -9,10 +9,16 @@ footer {
 .footer-container {
     max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
     gap: 30px;
     padding: 0 20px;
+    justify-content: space-between;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 180px;
 }
 
 .footer-section h3 {
@@ -76,13 +82,26 @@ footer {
 /* Responsive Design */
 @media (max-width: 768px) {
     .footer-container {
-        grid-template-columns: repeat(2, 1fr);
+        flex-direction: column;
         gap: 20px;
+    }
+
+    .footer-section {
+        flex: none;
+        min-width: auto;
     }
 }
 
 @media (max-width: 480px) {
     .footer-container {
-        grid-template-columns: 1fr;
+        padding: 0 15px;
+    }
+
+    .footer-section {
+        text-align: center;
+    }
+
+    .social-icons {
+        justify-content: center;
     }
 }

@@ -1,17 +1,17 @@
 .record-list-container {
     min-height: 100vh;
     background: linear-gradient(135deg,
-            #00f0ff,
-            #0B1F2A,
-            #00f0ff,
-            #6E00FF,
-            #00f0ff,
-            #FF4DC1,
-            #00f0ff,
-            #0B1F2A,
-            #00f0ff,
-            #6E00FF,
-            #00f0ff);
+            #00bcd4,
+            #051317,
+            #00bcd4,
+            #4a00b8,
+            #00bcd4,
+            #b8368a,
+            #00bcd4,
+            #051317,
+            #00bcd4,
+            #4a00b8,
+            #00bcd4);
     padding: 2rem;
     font-family: 'Arial', 'Helvetica', sans-serif;
 }

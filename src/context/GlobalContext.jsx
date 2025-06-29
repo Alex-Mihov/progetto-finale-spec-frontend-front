@@ -8,11 +8,15 @@ export function GlobalContextProvider({ children }) {
     const [games, setGames] = useState([]);
     const [categories, setCategories] = useState([]);
     const [compareGames, setCompareGames] = useState([]);
+    const [favoriteGames, setFavoriteGames] = useState([]);
 
     // Carica tutti i giochi all'avvio
     useEffect(() => {
         loadAllGames();
+        loadFavorites();
     }, []);
+
+
 
     // Funzione per caricare tutti i giochi con i loro dettagli
     async function loadAllGames() {
@@ -123,12 +127,71 @@ export function GlobalContextProvider({ children }) {
         setCompareGames([]);
     }
 
+
+    // Carica i preferiti dal localStorage
+    function loadFavorites() {
+        try {
+            const savedFavorites = localStorage.getItem('gamegalaxy-favorites');
+            if (savedFavorites) {
+                setFavoriteGames(JSON.parse(savedFavorites));
+            }
+        } catch (error) {
+            console.error("Errore nel caricamento dei preferiti:", error);
+        }
+    }
+
+    // Salva i preferiti nel localStorage
+    function saveFavorites(favorites) {
+        try {
+            localStorage.setItem('gamegalaxy-favorites', JSON.stringify(favorites));
+        } catch (error) {
+            console.error("Errore nel salvataggio dei preferiti:", error);
+        }
+    }
+
+
+    // Funzioni per i preferiti
+    function addToFavorites(game) {
+        const isAlreadyFavorite = favoriteGames.some(g => g.id === game.id);
+
+        if (!isAlreadyFavorite) {
+            const newFavorites = [...favoriteGames, game];
+            setFavoriteGames(newFavorites);
+            saveFavorites(newFavorites);
+            return true;
+        }
+        return false;
+    }
+
+    function removeFromFavorites(gameId) {
+        const newFavorites = favoriteGames.filter(game => game.id !== gameId);
+        setFavoriteGames(newFavorites);
+        saveFavorites(newFavorites);
+    }
+
+    function toggleFavorite(game) {
+        const isAlreadyFavorite = favoriteGames.some(g => g.id === game.id);
+
+        if (isAlreadyFavorite) {
+            removeFromFavorites(game.id);
+            return false;
+        } else {
+            addToFavorites(game);
+            return true;
+        }
+    }
+
+    function isFavorite(gameId) {
+        return favoriteGames.some(game => game.id === gameId);
+    }
+
     // Valori esposti dal context
     const contextValue = {
         // Dati
         games,
         categories,
         compareGames,
+        favoriteGames,
 
         // Funzioni
         fetchGameById: fetchGameDetails,
@@ -136,7 +199,11 @@ export function GlobalContextProvider({ children }) {
         sortGames,
         addToCompare,
         removeFromCompare,
-        clearCompare
+        clearCompare,
+        addToFavorites,
+        removeFromFavorites,
+        toggleFavorite,
+        isFavorite
     };
 
     return (

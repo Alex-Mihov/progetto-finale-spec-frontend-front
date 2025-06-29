@@ -1,17 +1,17 @@
 .detail-page-container {
     min-height: 100vh;
     background: linear-gradient(135deg,
-            #00f0ff,
-            #0B1F2A,
-            #00f0ff,
-            #6E00FF,
-            #00f0ff,
-            #FF4DC1,
-            #00f0ff,
-            #0B1F2A,
-            #00f0ff,
-            #6E00FF,
-            #00f0ff);
+            #00bcd4,
+            #051317,
+            #00bcd4,
+            #4a00b8,
+            #00bcd4,
+            #b8368a,
+            #00bcd4,
+            #051317,
+            #00bcd4,
+            #4a00b8,
+            #00bcd4);
     padding: 2rem;
     font-family: 'Arial', 'Helvetica', sans-serif;
 }
@@ -19,8 +19,7 @@
 .detail-content {
     max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
+    display: flex;
     gap: 3rem;
     background: rgba(15, 15, 19, 0.9);
     border-radius: 15px;
@@ -31,6 +30,12 @@
 
 .game-image-section {
     position: relative;
+    flex: 2;
+}
+
+.game-info-section {
+    color: white;
+    flex: 3;
 }
 
 .game-detail-image {
@@ -40,20 +45,38 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
-.detail-discount-badge {
+/* Pulsante preferiti */
+.favorite-btn {
     position: absolute;
     top: 15px;
     right: 15px;
-    background: #ff4dc1;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 25px;
-    font-size: 1rem;
-    font-weight: 700;
+    background: rgba(0, 0, 0, 0.7);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.game-info-section {
-    color: white;
+.favorite-btn:hover {
+    background: rgba(0, 0, 0, 0.9);
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.favorite-btn.favorite-active {
+    background: rgba(255, 77, 193, 0.8);
+}
+
+.favorite-btn.favorite-active:hover {
+    background: rgba(255, 77, 193, 1);
 }
 
 .game-detail-title {
@@ -187,24 +210,6 @@
     margin-top: 2rem;
 }
 
-.price-with-discount {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.original-price {
-    color: #888;
-    text-decoration: line-through;
-    font-size: 1.2rem;
-}
-
-.discounted-price {
-    color: #ff4dc1;
-    font-size: 2rem;
-    font-weight: 700;
-}
-
 .current-price {
     color: #00f0ff;
     font-size: 2rem;
@@ -316,9 +321,17 @@
 /* Responsive */
 @media (max-width: 768px) {
     .detail-content {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         gap: 2rem;
         padding: 1.5rem;
+    }
+
+    .game-image-section {
+        flex: none;
+    }
+
+    .game-info-section {
+        flex: none;
     }
 
     .game-detail-title {
@@ -339,6 +352,12 @@
     .compare-button {
         flex: none;
     }
+
+    .favorite-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -356,5 +375,13 @@
 
     .game-price-section {
         padding: 1rem;
+    }
+
+    .favorite-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+        top: 10px;
+        right: 10px;
     }
 }

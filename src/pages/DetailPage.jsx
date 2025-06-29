@@ -6,7 +6,7 @@ import "../componentsCSS/DetailPageCSS.css";
 export default function DetailPage() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { fetchGameById, compareGames, addToCompare } = useGlobalContext();
+    const { fetchGameById, compareGames, addToCompare, toggleFavorite, isFavorite } = useGlobalContext();
     const [game, setGame] = useState({});
 
     // Carica i dati del gioco quando cambia l'ID
@@ -32,15 +32,17 @@ export default function DetailPage() {
         }
     };
 
+    // Gestisce l'aggiunta/rimozione dai preferiti
+    const handleToggleFavorite = () => {
+        toggleFavorite(game);
+    };
+
     // Controlla se il gioco è già nel confronto
     const isGameInCompare = compareGames.some(g => g.id === game.id);
     const canAddToCompare = compareGames.length < 2 && !isGameInCompare;
 
-    // Calcola lo sconto se presente
-    const hasDiscount = game.discountPrice && game.discountPrice < game.price;
-    const discountPercentage = hasDiscount
-        ? Math.round(((game.price - game.discountPrice) / game.price) * 100)
-        : 0;
+    // Controlla se il gioco è nei preferiti
+    const isGameFavorite = isFavorite(game.id);
 
     // Formatta la data di rilascio
     const formatReleaseDate = (date) => {
@@ -61,11 +63,14 @@ export default function DetailPage() {
                 {/* Sezione immagine */}
                 <div className="game-image-section">
                     <img src={game.image} alt={game.title} className="game-detail-image" />
-                    {hasDiscount && (
-                        <div className="detail-discount-badge">
-                            -{discountPercentage}%
-                        </div>
-                    )}
+                    {/* Pulsante preferiti sull'immagine */}
+                    <button
+                        onClick={handleToggleFavorite}
+                        className={`favorite-btn ${isGameFavorite ? 'favorite-active' : ''}`}
+                        title={isGameFavorite ? 'Rimuovi dai preferiti' : 'Aggiungi ai preferiti'}
+                    >
+                        {isGameFavorite ? '❤️' : '🤍'}
+                    </button>
                 </div>
 
                 {/* Sezione informazioni */}
@@ -142,14 +147,7 @@ export default function DetailPage() {
 
                         {/* Prezzo */}
                         <div className="price-display">
-                            {hasDiscount ? (
-                                <div className="price-with-discount">
-                                    <span className="original-price">€{game.price}</span>
-                                    <span className="discounted-price">€{game.discountPrice}</span>
-                                </div>
-                            ) : (
-                                <span className="current-price">€{game.price}</span>
-                            )}
+                            <span className="current-price">€{game.price}</span>
                         </div>
 
                         {/* Pulsanti azione */}

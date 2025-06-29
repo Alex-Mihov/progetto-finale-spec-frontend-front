@@ -15,7 +15,7 @@
     margin: 0 auto;
 }
 
-/* Stile del logo (IDENTICO alla versione originale) */
+/* Stile del logo */
 .header a {
     text-decoration: none;
 }
@@ -36,16 +36,20 @@
     text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
 }
 
-/* Versione semplificata per la search bar */
+/* Search container usando flexbox */
 .search-container {
     display: flex;
     gap: 0.8rem;
     align-items: center;
+    flex: 1;
+    justify-content: center;
+    max-width: 350px;
 }
 
 .search-input {
     padding: 0.6rem 1rem;
-    width: 280px;
+    flex: 1;
+    min-width: 200px;
     background: #1a1a24;
     border: 1px solid #2d2d3a;
     border-radius: 6px;
@@ -69,16 +73,19 @@
     cursor: pointer;
     transition: background 0.2s;
     font-family: 'Arial', 'Helvetica', sans-serif;
+    flex-shrink: 0;
 }
 
 .search-button:hover {
     background: #0077ff;
 }
 
-/* Navigation links styles */
+/* Navigation links usando flexbox */
 .nav-links {
     display: flex;
     align-items: center;
+    gap: 1rem;
+    flex-shrink: 0;
 }
 
 .nav-link {
@@ -91,12 +98,36 @@
     transition: all 0.3s ease;
     text-shadow: 0 0 5px rgba(0, 240, 255, 0.2);
     font-family: 'Arial', 'Helvetica', sans-serif;
+    position: relative;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
 }
 
 .nav-link:hover {
     background: rgba(0, 240, 255, 0.1);
     text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
     transform: translateY(-2px);
+}
+
+/* Contatori usando flexbox */
+.favorites-count,
+.compare-count {
+    background: #ff4dc1;
+    color: white;
+    font-size: 0.8rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 12px;
+    margin-left: 0.5rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+}
+
+.compare-count {
+    background: #6e00ff;
 }
 
 /* Tablet responsiveness (768px and below) */
@@ -115,14 +146,16 @@
     .logo {
         font-size: 1.8rem;
         letter-spacing: 1px;
+        flex-shrink: 0;
     }
 
     .search-container {
         gap: 0.6rem;
+        max-width: 250px;
     }
 
     .search-input {
-        width: 180px;
+        min-width: 150px;
         padding: 0.5rem 0.8rem;
         font-size: 0.9rem;
     }
@@ -132,9 +165,21 @@
         font-size: 0.9rem;
     }
 
+    .nav-links {
+        gap: 0.5rem;
+        flex-shrink: 0;
+    }
+
     .nav-link {
         font-size: 1rem;
         padding: 0.4rem 0.8rem;
+    }
+
+    .favorites-count,
+    .compare-count {
+        font-size: 0.7rem;
+        padding: 0.1rem 0.4rem;
+        min-width: 18px;
     }
 }
 
@@ -145,23 +190,34 @@
     }
 
     .header-container {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        gap: 0.5rem;
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: stretch;
     }
 
     .logo {
         font-size: 1.4rem;
         letter-spacing: 0.5px;
+        text-align: center;
+        order: 1;
+    }
+
+    .nav-links {
+        order: 2;
+        gap: 0.3rem;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 
     .search-container {
+        order: 3;
         gap: 0.3rem;
+        max-width: none;
+        justify-content: stretch;
     }
 
     .search-input {
-        width: 120px;
+        min-width: auto;
         padding: 0.4rem 0.6rem;
         font-size: 0.8rem;
     }
@@ -174,5 +230,12 @@
     .nav-link {
         font-size: 0.9rem;
         padding: 0.3rem 0.6rem;
+    }
+
+    .favorites-count,
+    .compare-count {
+        font-size: 0.6rem;
+        padding: 0.1rem 0.3rem;
+        min-width: 16px;
     }
 }

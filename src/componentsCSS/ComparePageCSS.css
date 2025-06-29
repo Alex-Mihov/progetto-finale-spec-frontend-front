@@ -1,17 +1,17 @@
 .compare-page-container {
     min-height: 100vh;
     background: linear-gradient(135deg,
-            #00f0ff,
-            #0B1F2A,
-            #00f0ff,
-            #6E00FF,
-            #00f0ff,
-            #FF4DC1,
-            #00f0ff,
-            #0B1F2A,
-            #00f0ff,
-            #6E00FF,
-            #00f0ff);
+            #008b9a,
+            #030c0f,
+            #008b9a,
+            #380092,
+            #008b9a,
+            #8a2b68,
+            #008b9a,
+            #030c0f,
+            #008b9a,
+            #380092,
+            #008b9a);
     padding: 2rem;
     font-family: 'Arial', 'Helvetica', sans-serif;
 }
@@ -76,9 +76,9 @@
 }
 
 .compare-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 2rem;
+    justify-content: center;
 }
 
 .compare-card {
@@ -88,6 +88,8 @@
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     position: relative;
+    flex: 1;
+    max-width: 600px;
 }
 
 .compare-card-header {
@@ -123,18 +125,6 @@
     height: 300px;
     object-fit: cover;
     border-radius: 10px;
-}
-
-.compare-discount-badge {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background: #ff4dc1;
-    color: white;
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.8rem;
-    font-weight: 700;
 }
 
 .compare-game-info {
@@ -185,18 +175,6 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-}
-
-.original-price {
-    color: #888;
-    text-decoration: line-through;
-    font-size: 1rem;
-}
-
-.discounted-price {
-    color: #ff4dc1;
-    font-size: 1.5rem;
-    font-weight: 700;
 }
 
 .current-price {
@@ -403,8 +381,12 @@
 /* Responsive */
 @media (max-width: 768px) {
     .compare-grid {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         gap: 1.5rem;
+    }
+
+    .compare-card {
+        max-width: none;
     }
 
     .compare-header h1 {
