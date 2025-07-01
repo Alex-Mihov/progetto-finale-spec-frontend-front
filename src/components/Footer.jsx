@@ -3,8 +3,12 @@ import "../componentsCSS/FooterCSS.css";
 export default function Footer() {
     return (
         <>
+            {/* Footer principale del sito */}
             <footer>
+                {/* Container principale con layout flexbox */}
                 <div className="footer-container">
+
+                    {/* Sezione informazioni aziendali */}
                     <div className="footer-section">
                         <h3>Informazioni su GameGalaxy</h3>
                         <ul>
@@ -14,6 +18,7 @@ export default function Footer() {
                         </ul>
                     </div>
 
+                    {/* Sezione acquisti e servizi */}
                     <div className="footer-section">
                         <h3>Acquista</h3>
                         <ul>
@@ -22,6 +27,7 @@ export default function Footer() {
                         </ul>
                     </div>
 
+                    {/* Sezione supporto clienti */}
                     <div className="footer-section">
                         <h3>Aiuto</h3>
                         <ul>
@@ -32,6 +38,7 @@ export default function Footer() {
                         </ul>
                     </div>
 
+                    {/* Sezione community e notizie */}
                     <div className="footer-section">
                         <h3>Comunità</h3>
                         <ul>
@@ -40,6 +47,7 @@ export default function Footer() {
                         </ul>
                     </div>
 
+                    {/* Sezione partnership commerciali */}
                     <div className="footer-section">
                         <h3>Business</h3>
                         <ul>

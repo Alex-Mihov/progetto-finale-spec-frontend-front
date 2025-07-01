@@ -1,35 +1,37 @@
 import { createContext, useContext, useEffect, useState } from "react";
 
+// Creazione del Context e URL base dell'API
 const GlobalContext = createContext();
 const API_BASE_URL = "http://localhost:3001";
 
 export function GlobalContextProvider({ children }) {
-    // Stati principali
-    const [games, setGames] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [compareGames, setCompareGames] = useState([]);
-    const [favoriteGames, setFavoriteGames] = useState([]);
+    // Stati principali dell'applicazione
+    const [games, setGames] = useState([]); // Lista completa dei giochi
+    const [categories, setCategories] = useState([]); // Categorie uniche estratte dai giochi
+    const [compareGames, setCompareGames] = useState([]); // Giochi nel confronto (max 2)
+    const [favoriteGames, setFavoriteGames] = useState([]); // Giochi preferiti salvati
 
-    // Carica tutti i giochi all'avvio
+    // Carica tutti i giochi all'avvio del componente
     useEffect(() => {
         loadAllGames();
         loadFavorites();
     }, []);
 
-
-
-    // Funzione per caricare tutti i giochi con i loro dettagli
+    // Funzione per caricare tutti i giochi con i loro dettagli completi
     async function loadAllGames() {
         try {
+            // Ottiene la lista base dei giochi
             const response = await fetch(`${API_BASE_URL}/games`);
             const gamesList = await response.json();
 
-            // Carica i dettagli per ogni gioco
+            // Carica i dettagli completi per ogni gioco
             const gamesWithDetails = await Promise.all(
                 gamesList.map(game => fetchGameDetails(game.id))
             );
 
             setGames(gamesWithDetails);
+
+
             extractCategories(gamesWithDetails);
 
         } catch (error) {
@@ -43,7 +45,7 @@ export function GlobalContextProvider({ children }) {
         return await response.json();
     }
 
-    // Estrae le categorie uniche dai giochi
+    // Estrae le categorie uniche dai giochi per i filtri
     function extractCategories(gamesList) {
         const uniqueCategories = [...new Set(
             gamesList.map(({ game }) => game.category)
@@ -51,22 +53,24 @@ export function GlobalContextProvider({ children }) {
         setCategories(uniqueCategories);
     }
 
-    // Cerca e filtra i giochi
+    // Cerca e filtra i giochi in base a testo e categoria
     async function searchAndFilterGames(searchText, categoryFilter) {
         try {
-            // Costruisce l'URL direttamente qui
+            // Costruisce l'URL con i parametri di ricerca
             let url = `${API_BASE_URL}/games`;
             const params = [];
 
+            // Aggiunge il parametro di ricerca se presente
             if (searchText?.trim()) {
                 params.push(`search=${encodeURIComponent(searchText.trim())}`);
             }
 
+            // Aggiunge il filtro categoria se selezionato
             if (categoryFilter && categoryFilter !== 'all') {
                 params.push(`category=${encodeURIComponent(categoryFilter)}`);
             }
 
-            // Aggiunge i parametri all'URL se presenti
+            // Completa l'URL con i parametri
             if (params.length > 0) {
                 url = `${url}?${params.join('&')}`;
             }
@@ -74,7 +78,7 @@ export function GlobalContextProvider({ children }) {
             const response = await fetch(url);
             const data = await response.json();
 
-            // Se la risposta è una lista, carica i dettagli
+            // Se la risposta è una lista, carica i dettagli completi
             if (Array.isArray(data)) {
                 return await Promise.all(
                     data.map(game => fetchGameDetails(game.id))
@@ -89,7 +93,7 @@ export function GlobalContextProvider({ children }) {
         }
     }
 
-    // Ordina i giochi alfabeticamente
+    // Ordina i giochi alfabeticamente in base all'opzione selezionata
     function sortGames(gamesList, sortOrder = 'default') {
         const sorted = [...gamesList];
 
@@ -107,28 +111,33 @@ export function GlobalContextProvider({ children }) {
         }
     }
 
-    // Funzioni per il confronto dei giochi
+    // FUNZIONI PER IL CONFRONTO GIOCHI
+
+    // Aggiunge un gioco al confronto (max 2)
     function addToCompare(game) {
         const isAlreadyAdded = compareGames.some(g => g.id === game.id);
         const canAdd = compareGames.length < 2 && !isAlreadyAdded;
 
         if (canAdd) {
             setCompareGames([...compareGames, game]);
-            return true;
+            return true; // Successo
         }
-        return false;
+        return false; // Già presente o limite raggiunto
     }
 
+    // Rimuove un gioco specifico dal confronto
     function removeFromCompare(gameId) {
         setCompareGames(compareGames.filter(game => game.id !== gameId));
     }
 
+    // Svuota completamente la lista di confronto
     function clearCompare() {
         setCompareGames([]);
     }
 
+    // FUNZIONI PER LA PERSISTENZA DEI PREFERITI
 
-    // Carica i preferiti dal localStorage
+    // Carica i preferiti dal localStorage all'avvio
     function loadFavorites() {
         try {
             const savedFavorites = localStorage.getItem('gamegalaxy-favorites');
@@ -149,57 +158,65 @@ export function GlobalContextProvider({ children }) {
         }
     }
 
+    // FUNZIONI PER LA GESTIONE DEI PREFERITI
 
-    // Funzioni per i preferiti
+    // Aggiunge un gioco ai preferiti
     function addToFavorites(game) {
         const isAlreadyFavorite = favoriteGames.some(g => g.id === game.id);
 
         if (!isAlreadyFavorite) {
             const newFavorites = [...favoriteGames, game];
             setFavoriteGames(newFavorites);
-            saveFavorites(newFavorites);
-            return true;
+            saveFavorites(newFavorites); // Salva nel localStorage
+            return true; // Successo
         }
-        return false;
+        return false; // Già nei preferiti
     }
 
+    // Rimuove un gioco dai preferiti
     function removeFromFavorites(gameId) {
         const newFavorites = favoriteGames.filter(game => game.id !== gameId);
         setFavoriteGames(newFavorites);
-        saveFavorites(newFavorites);
+        saveFavorites(newFavorites); // Salva nel localStorage
     }
 
+    // Alterna lo stato di preferito di un gioco
     function toggleFavorite(game) {
         const isAlreadyFavorite = favoriteGames.some(g => g.id === game.id);
 
         if (isAlreadyFavorite) {
             removeFromFavorites(game.id);
-            return false;
+            return false; // Rimosso dai preferiti
         } else {
             addToFavorites(game);
-            return true;
+            return true; // Aggiunto ai preferiti
         }
     }
 
+    // Controlla se un gioco è nei preferiti
     function isFavorite(gameId) {
         return favoriteGames.some(game => game.id === gameId);
     }
 
-    // Valori esposti dal context
+    // Valori e funzioni esposti dal context a tutti i componenti
     const contextValue = {
-        // Dati
+        // Dati di stato
         games,
         categories,
         compareGames,
         favoriteGames,
 
-        // Funzioni
+        // Funzioni per i giochi
         fetchGameById: fetchGameDetails,
         handleSearchFilter: searchAndFilterGames,
         sortGames,
+
+        // Funzioni per il confronto
         addToCompare,
         removeFromCompare,
         clearCompare,
+
+        // Funzioni per i preferiti
         addToFavorites,
         removeFromFavorites,
         toggleFavorite,
@@ -213,7 +230,7 @@ export function GlobalContextProvider({ children }) {
     );
 }
 
-// Hook personalizzato per usare il context
+// Hook personalizzato per usare il context facilmente
 export function useGlobalContext() {
     const context = useContext(GlobalContext);
     if (!context) {

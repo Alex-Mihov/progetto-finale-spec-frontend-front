@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import "../componentsCSS/ComparePageCSS.css";
 
 export default function ComparePage() {
+    // Accesso alle funzioni e dati globali per il confronto
     const { compareGames, removeFromCompare, clearCompare } = useGlobalContext();
 
-    // Funzioni helper
+    // Funzione helper per formattare le date in formato italiano
     const formatDate = (dateString) => {
         return new Date(dateString).toLocaleDateString('it-IT');
     };
@@ -17,11 +18,13 @@ export default function ComparePage() {
             <div className="compare-header">
                 <h1>Confronto Giochi</h1>
                 <div className="compare-actions">
+                    {/* Pulsante per pulire tutto il confronto (visibile solo se ci sono giochi) */}
                     {compareGames.length > 0 && (
                         <button onClick={clearCompare} className="clear-compare-btn">
                             Pulisci confronto
                         </button>
                     )}
+                    {/* Link per tornare alla pagina dei giochi */}
                     <Link to="/records" className="back-to-games-btn">
                         Torna ai giochi
                     </Link>
@@ -30,7 +33,7 @@ export default function ComparePage() {
 
             <div className="compare-content">
 
-                {/* Messaggio quando non ci sono giochi */}
+                {/* Messaggio quando non ci sono giochi da confrontare */}
                 {compareGames.length === 0 && (
                     <div className="no-games-to-compare">
                         <h2>Nessun gioco da confrontare</h2>
@@ -50,7 +53,7 @@ export default function ComparePage() {
                             return (
                                 <div key={game.id} className="compare-card">
 
-                                    {/* Pulsante per rimuovere il gioco */}
+                                    {/* Header della card con pulsante rimozione */}
                                     <div className="compare-card-header">
                                         <button
                                             onClick={() => removeFromCompare(game.id)}
@@ -61,7 +64,7 @@ export default function ComparePage() {
                                         </button>
                                     </div>
 
-                                    {/* Immagine del gioco */}
+                                    {/* Sezione immagine del gioco */}
                                     <div className="game-image-section">
                                         <img
                                             src={game.image}
@@ -70,20 +73,20 @@ export default function ComparePage() {
                                         />
                                     </div>
 
-                                    {/* Tutte le informazioni del gioco */}
+                                    {/* Tutte le informazioni dettagliate del gioco */}
                                     <div className="compare-game-info">
 
                                         {/* Titolo e categoria */}
                                         <h2 className="compare-game-title">{game.title}</h2>
                                         <p className="compare-game-category">{game.category}</p>
 
-                                        {/* Valutazione */}
+                                        {/* Sezione valutazione degli utenti */}
                                         <div className="compare-section">
                                             <h3>Valutazione</h3>
                                             <div className="rating-display">⭐ {game.userRating}/10</div>
                                         </div>
 
-                                        {/* Prezzo */}
+                                        {/* Sezione prezzo */}
                                         <div className="compare-section">
                                             <h3>Prezzo</h3>
                                             <div className="price-display">
@@ -91,7 +94,7 @@ export default function ComparePage() {
                                             </div>
                                         </div>
 
-                                        {/* Dettagli tecnici */}
+                                        {/* Dettagli tecnici e informazioni generali */}
                                         <div className="compare-section">
                                             <h3>Dettagli</h3>
                                             <div className="details-list">
@@ -132,7 +135,7 @@ export default function ComparePage() {
                                             </div>
                                         </div>
 
-                                        {/* Lingue supportate */}
+                                        {/* Lingue supportate dal gioco */}
                                         <div className="compare-section">
                                             <h3>Lingue</h3>
                                             <div className="languages-grid">
@@ -144,17 +147,19 @@ export default function ComparePage() {
                                             </div>
                                         </div>
 
-                                        {/* Descrizione del gioco */}
+                                        {/* Descrizione completa del gioco */}
                                         <div className="compare-section">
                                             <h3>Descrizione</h3>
                                             <p className="game-description">{game.description}</p>
                                         </div>
 
-                                        {/* Pulsanti di azione */}
+                                        {/* Pulsanti di azione per ogni gioco */}
                                         <div className="compare-actions-section">
+                                            {/* Link per vedere i dettagli completi */}
                                             <Link to={`/game/${game.id}`} className="view-details-btn">
                                                 Vedi dettagli
                                             </Link>
+                                            {/* Pulsante carrello (disabilitato se non disponibile) */}
                                             <button
                                                 className="add-to-cart-btn"
                                                 disabled={!game.availability}
@@ -167,7 +172,7 @@ export default function ComparePage() {
                             );
                         })}
 
-                        {/* Placeholder quando c'è solo un gioco */}
+                        {/* Placeholder quando c'è solo un gioco nel confronto */}
                         {compareGames.length === 1 && (
                             <div className="compare-card placeholder">
                                 <div className="placeholder-content">
