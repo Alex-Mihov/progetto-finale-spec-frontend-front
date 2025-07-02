@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState, useMemo } from "react";
 
 // Creazione del Context e URL base dell'API
 const GlobalContext = createContext();
@@ -7,7 +7,6 @@ const API_BASE_URL = "http://localhost:3001";
 export function GlobalContextProvider({ children }) {
     // Stati principali dell'applicazione
     const [games, setGames] = useState([]); // Lista completa dei giochi
-    const [categories, setCategories] = useState([]); // Categorie uniche estratte dai giochi
     const [compareGames, setCompareGames] = useState([]); // Giochi nel confronto (max 2)
     const [favoriteGames, setFavoriteGames] = useState([]); // Giochi preferiti salvati
 
@@ -31,9 +30,6 @@ export function GlobalContextProvider({ children }) {
 
             setGames(gamesWithDetails);
 
-
-            extractCategories(gamesWithDetails);
-
         } catch (error) {
             console.error("Errore nel caricamento dei giochi:", error);
         }
@@ -45,13 +41,10 @@ export function GlobalContextProvider({ children }) {
         return await response.json();
     }
 
-    // Estrae le categorie uniche dai giochi per i filtri
-    function extractCategories(gamesList) {
-        const uniqueCategories = [...new Set(
-            gamesList.map(({ game }) => game.category)
-        )];
-        setCategories(uniqueCategories);
-    }
+    // Calcola automaticamente le categorie uniche dai giochi caricati
+    const categories = useMemo(() => {
+        return [...new Set(games.map(({ game }) => game.category))];
+    }, [games]);
 
     // Cerca e filtra i giochi in base a testo e categoria
     async function searchAndFilterGames(searchText, categoryFilter) {

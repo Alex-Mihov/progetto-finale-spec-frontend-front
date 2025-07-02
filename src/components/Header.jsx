@@ -1,30 +1,37 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useGlobalContext } from "../context/GlobalContext.jsx";
 import "../componentsCSS/HeaderCSS.css";
 
 export default function Header() {
-    // Stato locale per il testo di ricerca
-    const [searchQuery, setSearchQuery] = useState("");
-
     // Hook per la navigazione programmatica
     const navigate = useNavigate();
 
     // Accesso ai dati globali del context
     const { compareGames, favoriteGames } = useGlobalContext();
 
-    // Gestisce la ricerca quando l'utente invia il form
-    const handleSearchSubmit = (e) => {
-        e.preventDefault(); // Previene il refresh della pagina
+    // Funzione debounce per ritardare la ricerca
+    function debounce(callback, delay) {
+        let timer;
+        return (value) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => callback(value), delay);
+        };
+    }
 
-        if (searchQuery.trim()) {
+    // Funzione per eseguire la ricerca
+    const performSearch = useCallback((searchValue) => {
+        if (searchValue.trim()) {
             // Se c'è del testo, naviga alla pagina giochi con query di ricerca
-            navigate(`/records?search=${encodeURIComponent(searchQuery.trim())}`);
+            navigate(`/records?search=${encodeURIComponent(searchValue.trim())}`);
         } else {
             // Se il campo è vuoto, mostra tutti i giochi senza filtri
             navigate('/records');
         }
-    };
+    }, [navigate]);
+
+    // Crea la funzione di ricerca con debounce (500ms di ritardo)
+    const debounceSearch = useCallback(debounce(performSearch, 500), [performSearch]);
 
     return (
         <header className="header">
@@ -66,21 +73,18 @@ export default function Header() {
                     </Link>
                 </nav>
 
-                {/* Form di ricerca */}
-                <form className="search-container" onSubmit={handleSearchSubmit}>
-                    {/* Input di ricerca controllato */}
+                {/* Search bar con debounce */}
+                <div className="search-container">
+                    {/* Input di ricerca con debounce */}
                     <input
                         type="text"
                         className="search-input"
-                        placeholder="Cerca giochi..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        placeholder="Cerca nel sito..."
+                        onChange={e => debounceSearch(e.target.value)}
                     />
-                    {/* Pulsante per inviare la ricerca */}
-                    <button type="submit" className="search-button">
-                        🔍
-                    </button>
-                </form>
+                    {/* Icona di ricerca decorativa */}
+                    <span className="search-icon">🔍</span>
+                </div>
             </div>
         </header>
     );
